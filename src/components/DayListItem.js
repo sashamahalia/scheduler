@@ -5,6 +5,19 @@ import classnames from 'classnames';
 
 export default function DayListItem(props) {
 
+  const formatSpots = () => {
+    if (props.spots === 1) {
+      return `${props.spots} spot remaining`
+    }
+
+    if (props.spots === 0) {
+      return 'no spots remaining'
+    }
+
+    return `${props.spots} spots remaining`
+
+  }
+
   const dayClass = classnames(
     {
     'day-list__item--selected': props.selected,
@@ -18,7 +31,7 @@ export default function DayListItem(props) {
       className={dayClass}
     >
       <h2 className="text--regular">{props.name}</h2>
-      <h2 className="text--light">{props.spots} spots remaining</h2>
+      <h2 className="text--light">{formatSpots()}</h2>
     </li>
   );
 }
