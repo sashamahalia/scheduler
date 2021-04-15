@@ -1,9 +1,10 @@
-export function getAppointmentsForDay(state, day) {
-  const dayData = state.days.filter(dayObj => dayObj.name === day)
+export default function getAppointmentsForDay(state, day) {
+  const [dayData] = state.days.filter(dayObj => dayObj.name === day)
 
-  if (!dayData[0]) {
+  if (!dayData) {
     return [];
   }
-
-  return dayData[0].appointments.map(appointment => state.appointments[appointment])
+  
+  console.log(dayData.appointments.map(appointment => state.appointments[appointment]))
+  return dayData.appointments.map(appointment => state.appointments[appointment])
 }
