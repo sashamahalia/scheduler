@@ -71,6 +71,7 @@ export default function Application(props) {
     <Appointment
      key={appointment.id}
      id={appointment.id}
+     name={appointment.interview && appointment.interview.student}
      bookInterview={bookInterview}
      cancelInterview={cancelInterview}
      time={appointment.time}
