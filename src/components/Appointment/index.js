@@ -73,6 +73,7 @@ export default function Appointment(props) {
         <Form 
           onChange={console.log('onchange')} 
           name={props.name}
+          value={props.interview && props.interview.interviewer.id}
           interviewers={props.interviewers}
           onSave={save}
           onCancel={() => back()} 
