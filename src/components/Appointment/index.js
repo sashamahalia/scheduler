@@ -8,6 +8,7 @@ import Empty from './Empty';
 import Form from './Form';
 import Status from './Status';
 import Confirm from './Confirm';
+import Error from './Error';
 
 export default function Appointment(props) {
   const EMPTY = 'EMPTY';
@@ -17,6 +18,8 @@ export default function Appointment(props) {
   const SAVING = 'SAVING';
   const DELETING = 'DELETING';
   const CONFIRM = 'CONFIRM';
+  const ERROR_SAVE = 'ERROR_SAVE';
+  const ERROR_DELETE = 'ERROR_DELETE';
 
 
   const { mode, transition, back} = useVisualMode(
@@ -29,27 +32,38 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-    transition(SAVING)
-    props.bookInterview(props.id, interview)
-    .then(res => transition(SHOW))
-    .catch(err => console.log('error status:', err.response.status))
+
+    if (!interviewer) {
+      return;
+    }
+    
+    transition(SAVING, true)
+
+    props
+      .bookInterview(props.id, interview)
+      .then(res => transition(SHOW))
+      .catch(err => transition(ERROR_SAVE, true))
   }
 
-  function cancel() {
-    transition(DELETING);
-    props.cancelInterview(props.id)
-    .then((res) => transition(EMPTY))
+  function cancel(event) {
+    transition(DELETING, true);
+    props
+      .cancelInterview(props.id)
+      .then((res) => transition(EMPTY))
+      .catch(err => transition(ERROR_DELETE, true))
   }
 
-  function confirm() {
-    transition(CONFIRM);
-  }
+  // function confirm() {
+  //   transition(CONFIRM);
+  // }
 
   return (
     <article className='appointment'>
       <Header time={props.time}/>
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SAVING && <Status message="Saving appointment"/>}
+      {mode === ERROR_DELETE && <Error onClose={() => back()} message="Could not cancel appointment."/>}
+      {mode === ERROR_SAVE && <Error onClose={() => back()} message="Could not save appointment."/>}
       {mode === DELETING && <Status message="Deleting"/>}
       {mode === CONFIRM && <Confirm message="Are you sure you would like to delete?"  onCancel={() => back()} onConfirm={cancel} />}
       {mode === SHOW && (
