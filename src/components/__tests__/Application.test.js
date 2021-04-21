@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, cleanup, fireEvent, waitForElement, getByAltText, getByText, prettyDOM, getAllByTestId, getByTestId, getByPlaceholderText } from "@testing-library/react";
+import { render, cleanup, fireEvent, waitForElement, waitForElementToBeRemoved, getByAltText, getByText, prettyDOM, getAllByTestId, getByTestId, getByPlaceholderText, queryByText } from "@testing-library/react";
 
 import Application from "components/Application";
 
@@ -16,8 +16,8 @@ describe('Application', () => {
       expect(getByText("Leopold Silvers")).toBeInTheDocument();
   });
 
-  it.only("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
-    const { container } = render(<Application />);
+  it("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
+    const { container, debug } = render(<Application />);
     
   await waitForElement(() => getByText(container, "Archie Cohen"));
 
@@ -32,7 +32,16 @@ describe('Application', () => {
   fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
 
   fireEvent.click(getByText(appointment, "Save"));
+  expect(getByText(appointment, "Saving")).toBeInTheDocument();
 
-  console.log(prettyDOM(appointment));
+  await waitForElementToBeRemoved(() => getByText(appointment, "Saving"));
+  await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
+
+
+  const day = getAllByTestId(container, "day").find(day =>
+    queryByText(day, "Monday")
+  );
+
+  expect(getByText(day, "no spots remaining")).toBeInTheDocument();
   }); 
 });
