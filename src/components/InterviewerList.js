@@ -5,7 +5,6 @@ import InterviewerListItem from './InterviewerListItem';
 import './InterviewerList.scss';
 
 function InterviewerList(props) {
-  console.log('inside InterviewerList', props.interviewers)
   
   return (
    <section className="interviewers">
