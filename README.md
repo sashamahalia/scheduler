@@ -27,8 +27,10 @@ npm run storybook
 ## Screenshots
 
 !["Day view"](https://github.com/sashamahalia/scheduler/blob/master/docs/day-view.png?raw=true)
-
+  
+  
 !["Appointment form"](https://github.com/sashamahalia/scheduler/blob/master/docs/appointment-form.png?raw=true)
+  
 
 !["Add new appointment"](https://github.com/sashamahalia/scheduler/blob/master/docs/add-appointment.png?raw=true)
 
