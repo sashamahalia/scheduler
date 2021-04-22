@@ -11,6 +11,7 @@ import {
 } from "../helpers/selectors";
 
 export default function Application(props) {
+  //imports all needed state functions from useApplicationData hook
   const {
     state,
     setDay,

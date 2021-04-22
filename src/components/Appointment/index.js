@@ -25,7 +25,7 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
-  //upon save, passes interview object to bookInterview function
+  //upon save, passes interview object to bookInterview function, which makes a put request to axios
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -44,7 +44,8 @@ export default function Appointment(props) {
       .catch((err) => transition(ERROR_SAVE, true));
   }
 
-  function cancel(event) {
+  //upon destroy, transitions to Deleting mode, runs cancels interview function, and returns mode based on axios delete request
+  function destory(event) {
     transition(DELETING, true);
     props
       .cancelInterview(props.id)
@@ -68,7 +69,7 @@ export default function Appointment(props) {
         <Confirm
           message="Are you sure you would like to delete?"
           onCancel={() => back()}
-          onConfirm={cancel}
+          onConfirm={destory}
         />
       )}
       {mode === SHOW && (

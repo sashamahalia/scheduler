@@ -9,6 +9,7 @@ export default function useApplicationData() {
     interviewers: {},
   });
 
+  //helper for updateSpots
   const getSpotsForDay = (dayObj, appointments) => {
     let spots = 0;
     for (const id of dayObj.appointments) {
@@ -17,34 +18,6 @@ export default function useApplicationData() {
     }
     return spots;
   };
-
-  // const updateSpots = function (dayName, days, appointments) {
-
-  //   const day = days.find(day => day.name === dayName);
-  //   const spots = getSpotsForDay(day, appointments);
-  //   // let spotsFilled = 0;
-  //   // for (const id of day.appointments) {
-  //   //   if (appointments[id].interview) {
-  //   //     spotsFilled++
-  //   //   }
-  //   // }
-  //   // const spotsLeft = spots - ;
-
-  //   const newDays = [...days]
-  //   for (const newDay of newDays) {
-  //     if (newDay.name === dayName) {
-  //       newDay.spots = spots;
-  //     }
-  //   }
-
-  //   setState(prev => {
-  //     return {
-  //       ...prev,
-  //       days: newDays
-  //     }
-  //   })
-
-  // };
 
   const updateSpots = (dayName, days, appointments) => {
     //find the day object
@@ -61,6 +34,7 @@ export default function useApplicationData() {
 
   const setDay = (day) => setState({ ...state, day });
 
+  //Fetches app data with api call
   useEffect(() => {
     const daysURL = "/api/days";
     const appointmentURL = "/api/appointments";
@@ -82,7 +56,8 @@ export default function useApplicationData() {
     );
   }, []);
 
-  function bookInterview(id, interview) {
+  //builds appointments object to update state, sends interview object to axios, only updates state if the api call succeeds
+  const bookInterview = (id, interview) => {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -105,10 +80,9 @@ export default function useApplicationData() {
         };
       })
     );
-    // .then(() => updateSpots(state.day, state.days, appointments));
   }
-
-  function cancelInterview(id) {
+  //builds interview object to update state, sends interview object to axios, only updates state if the api call succeeds
+  const cancelInterview = (id) => {
     const interview = { ...state.appointments[id].interview };
 
     const newAppointments = { ...state.appointments };

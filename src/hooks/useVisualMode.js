@@ -3,16 +3,14 @@ import { useState } from "react";
 export default function useVisualMode(initial) {
   const [history, setHistory] = useState([initial]);
 
+  //moves mode forward, current mode overwrite previous mode if replace is true
   const transition = (newMode, replace = false) => {
     replace && setHistory((prev) => [...prev.slice(0, -1), newMode]);
     !replace && setHistory((prev) => [...prev, newMode]);
   };
 
+  //moves mode one backward, as long as history has at least two modes
   const back = () => {
-    // const historyMutatable = history.slice();
-    // historyMutatable.pop()
-    //history[1] validates that there are at least two values in history, to prevent modifying initial state.
-    // history[1] && setHistory(prev => [...prev.slice(0, -1)]);
     history[1] && setHistory((prev) => prev.slice(0, -1));
   };
 
