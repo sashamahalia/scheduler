@@ -73,7 +73,7 @@ export default function Appointment(props) {
       )}
       {mode === CREATE && (
         <Form 
-          onChange={console.log('onchange')} 
+          // onChange={console.log('onchange')} 
           interviewers={props.interviewers}
           onSave={save}
           onCancel={() => back()} 
@@ -81,7 +81,7 @@ export default function Appointment(props) {
       )}
       {mode === EDIT && (
         <Form 
-          onChange={console.log('onchange')} 
+          // onChange={console.log('onchange')} 
           name={props.name}
           value={props.interview && props.interview.interviewer.id}
           interviewers={props.interviewers}
